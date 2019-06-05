@@ -1,5 +1,5 @@
-Pipeline {
- agent any
+pipeline {
+ agents any
     stages {
 
         stage('Clone Repo') {

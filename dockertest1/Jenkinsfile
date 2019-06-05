@@ -4,8 +4,6 @@ pipeline {
 
         stage('Clone Repo') {
           steps {
-              sh 'cd /var/lib/jenkins/workspace' 
-              sh 'rm -rf pipeline2'
             sh 'git clone https://github.com/Raghurapaka/pipeline.git'
             }
         }

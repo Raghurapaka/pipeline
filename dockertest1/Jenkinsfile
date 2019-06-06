@@ -4,15 +4,15 @@ pipeline {
 
         stage('Clone Repo') {
           steps {
-            sh 'rm -rf pipeline'
+            
             sh 'git clone https://github.com/Raghurapaka/pipeline.git'
             }
         }
 
         stage('Build Docker Image') {
           steps {
-            sh 'cd /var/lib/jenkins/workspace/pipeline2/pipeline'
-            sh ' cp  /var/lib/jenkins/workspace/pipeline2/pipeline/* /var/lib/jenkins/workspace/pipeline2'
+            sh 'cd /var/lib/jenkins/workspace/pipeline3/pipeline'
+            sh ' cp  /var/lib/jenkins/workspace/pipeline3/pipeline/* /var/lib/jenkins/workspace/pipeline2'
             sh ' docker rmi raghurapaka/pipelinetest:v1'
             sh 'docker build -t raghurapaka/pipelinetest:v1 .'
             }

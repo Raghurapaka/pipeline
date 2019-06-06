@@ -4,27 +4,30 @@ pipeline {
 
         stage('Clone Repo') {
           steps {
+            sh 'rm -rf pipeline'
             sh 'git clone https://github.com/Raghurapaka/pipeline.git'
             }
         }
 
         stage('Build Docker Image') {
           steps {
-            sh 'cd /var/lib/jenkins/workspace/pipeline2/dockertest1'
-            sh ' cp  /var/lib/jenkins/workspace/pipeline2/dockertest1/* /var/lib/jenkins/workspace/pipeline2'
-            sh 'docker build -t raghurapaka/pipelinetest:v2 .'
+            sh 'cd /var/lib/jenkins/workspace/pipeline2/pipeline'
+            sh ' cp  /var/lib/jenkins/workspace/pipeline2/pipeline/* /var/lib/jenkins/workspace/pipeline2'
+            sh ' docker rmi raghurapaka/pipelinetest:v1'
+            sh 'docker build -t raghurapaka/pipelinetest:v1 .'
             }
         }
 
         stage('Push Image to Docker Hub') {
           steps {
-           sh    'docker push raghurapaka/pipelinetest:v2'
+           sh    'docker push raghurapaka/pipelinetest:v1'
            }
         }
 
         stage('Deploy to Docker Host') {
           steps {
-            sh   'docker -H tcp://10.1.1.44:2375 run --rm -dit --name webapp1 --hostname webapp1 -p 9000:80 raghurapaka/pipelinetest:v2'
+            sh    'docker -H tcp://10.1.1.44:2375 stop webapp1'
+            sh    'docker -H tcp://10.1.1.44:2375 run --rm -dit --name webapp1 --hostname webapp1 -p 9000:80 sreeharshav/pipelinetest:v1'
             }
         }
 

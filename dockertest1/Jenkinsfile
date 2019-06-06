@@ -4,7 +4,7 @@ pipeline {
 
         stage('Clone Repo') {
           steps {
-              withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']){
+              withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
             sh 'git clone https://github.com/Raghurapaka/pipeline.git'
               }
             }
@@ -12,7 +12,7 @@ pipeline {
 
         stage('Build Docker Image') {
           steps {
-             withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']){  
+             withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {  
             sh 'cd /var/lib/jenkins/workspace/pipeline3/pipeline'
             sh ' cp  /var/lib/jenkins/workspace/pipeline3/pipeline/* /var/lib/jenkins/workspace/pipeline2'
             sh ' docker rmi raghurapaka/pipelinetest:v1'
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Push Image to Docker Hub') {
           steps {
-           withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']){   
+           withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {   
            sh    'docker push raghurapaka/pipelinetest:v1'
            }
            }
@@ -31,7 +31,7 @@ pipeline {
 
         stage('Deploy to Docker Host') {
           steps {
-             withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']){  
+             withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {  
             sh    'docker -H tcp://10.1.1.44:2375 stop webapp1'
             sh    'docker -H tcp://10.1.1.44:2375 run --rm -dit --name webapp1 --hostname webapp1 -p 9000:80 sreeharshav/pipelinetest:v1'
              }
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Check WebApp Rechability') {
           steps {
-           withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']){    
+           withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {    
           sh 'sleep 10s'
           sh 'curl http://ec2-34-224-23-15.compute-1.amazonaws.com:9000'
            }

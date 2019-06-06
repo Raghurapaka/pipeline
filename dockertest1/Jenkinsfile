@@ -4,8 +4,9 @@ pipeline {
 
         stage('Clone Repo') {
           steps {
-            
+              withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']){
             sh 'git clone https://github.com/Raghurapaka/pipeline.git'
+              }
             }
         }
 
